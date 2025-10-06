@@ -1,5 +1,6 @@
 services:
     TheoVauvilliers\GridBundle\Manager\GridManager:
+        alias: theo_vauvilliers.grid.manager.grid
         arguments:
             - '@TheoVauvilliers\GridBundle\Factory\GridDefinitionFactory'
             - '@TheoVauvilliers\GridBundle\Factory\GridQueryBuilderFactory'

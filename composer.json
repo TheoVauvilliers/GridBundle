@@ -22,10 +22,7 @@
     "autoload": {
         "psr-4": {
             "TheoVauvilliers\\GridBundle\\": "src/"
-        },
-        "classmap": [
-            "TheoVauvilliersGridBundle.php"
-        ]
+        }
     },
     "minimum-stability": "stable",
     "prefer-stable": true
