@@ -1,0 +1,4 @@
+services:
+    TheoVauvilliers\GridBundle\Provider\GridDefinitionProvider:
+        arguments:
+            - '%kernel.project_dir%'

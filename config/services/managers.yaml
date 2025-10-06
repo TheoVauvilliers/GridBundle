@@ -1,0 +1,5 @@
+services:
+    TheoVauvilliers\GridBundle\Manager\GridManager:
+        arguments:
+            - '@TheoVauvilliers\GridBundle\Factory\GridDefinitionFactory'
+            - '@TheoVauvilliers\GridBundle\Factory\GridQueryBuilderFactory'

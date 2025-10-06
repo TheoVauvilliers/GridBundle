@@ -1,0 +1,9 @@
+services:
+    TheoVauvilliers\GridBundle\Factory\GridDefinitionFactory:
+        arguments:
+            - '@TheoVauvilliers\GridBundle\Provider\GridDefinitionProvider'
+            - '@TheoVauvilliers\GridBundle\Serializer\GridDefinitionDenormalizer'
+
+    TheoVauvilliers\GridBundle\Factory\GridQueryBuilderFactory:
+        arguments:
+            - '@doctrine.orm.entity_manager'
