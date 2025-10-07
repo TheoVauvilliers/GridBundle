@@ -12,7 +12,7 @@ class GridDefinition
 
     private GridDefinitionSource $source;
 
-    /** @var GridDefinitionAction[]  */
+    /** @var GridDefinitionAction[] */
     private array $actions = [];
 
     /** @var GridDefinitionColumn[] */

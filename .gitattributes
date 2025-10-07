@@ -1,0 +1,25 @@
+/.git                    export-ignore
+/.github                 export-ignore
+/.gitignore              export-ignore
+/.gitattributes          export-ignore
+/README.md               export-ignore
+/CONTRIBUTING.md         export-ignore
+
+/docker-compose.yml      export-ignore
+/Makefile                export-ignore
+
+/tests                   export-ignore
+/phpunit.xml.dist        export-ignore
+/phpstan.neon            export-ignore
+/phpstan.neon.dist       export-ignore
+/phpcs.xml               export-ignore
+/.php-cs-fixer.dist.php  export-ignore
+/.php-cs-fixer.php       export-ignore
+/.php-cs-fixer.cache     export-ignore
+
+/.idea                   export-ignore
+/.vscode                 export-ignore
+/.DS_Store               export-ignore
+
+/vendor                  export-ignore
+/var                     export-ignore

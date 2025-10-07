@@ -51,11 +51,13 @@ class GridDefinitionAction
         return $this;
     }
 
+    /** @return array<string, string> */
     public function getRouteParameters(): array
     {
         return $this->routeParameters;
     }
 
+    /** @param array<string, string> $routeParameters */
     public function setRouteParameters(array $routeParameters): static
     {
         $this->routeParameters = $routeParameters;

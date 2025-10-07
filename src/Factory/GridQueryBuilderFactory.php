@@ -21,7 +21,10 @@ readonly class GridQueryBuilderFactory
         $queryBuilder = $this->entityManager->createQueryBuilder();
 
         $queryBuilder
-            ->from($definition->getSource()->getFrom()->getEntity(), $definition->getSource()->getFrom()->getAlias())
+            ->from(
+                $definition->getSource()->getFrom()->getEntity(),
+                $definition->getSource()->getFrom()->getAlias()
+            )
             ->select($this->buildSelect($definition))
         ;
 

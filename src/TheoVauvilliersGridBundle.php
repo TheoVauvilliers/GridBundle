@@ -12,16 +12,17 @@ class TheoVauvilliersGridBundle extends AbstractBundle
 {
     protected string $extensionAlias = 'grid';
 
+    /** @param array<string, mixed> $config */
     public function loadExtension(
         array $config,
         ContainerConfigurator $container,
-        ContainerBuilder $builder
+        ContainerBuilder $builder,
     ): void {
-        $configDir = \dirname(__DIR__) . '/config';
-        $servicesDir = $configDir . '/services';
+        $configDir = \dirname(__DIR__).'/config';
+        $servicesDir = $configDir.'/services';
 
         if (\is_dir($servicesDir)) {
-            $container->import($servicesDir . '/*.yaml');
+            $container->import($servicesDir.'/*.yaml');
         }
     }
 }
