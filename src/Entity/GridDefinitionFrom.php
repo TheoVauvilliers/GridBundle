@@ -6,15 +6,18 @@ namespace TheoVauvilliers\GridBundle\Entity;
 
 class GridDefinitionFrom
 {
+    /** @var class-string */
     private string $entity;
 
     private string $alias;
 
+    /** @return class-string */
     public function getEntity(): string
     {
         return $this->entity;
     }
 
+    /** @param class-string $entity */
     public function setEntity(string $entity): static
     {
         $this->entity = $entity;

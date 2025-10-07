@@ -1,0 +1,20 @@
+services:
+    php:
+        image: php:8.4-cli
+        working_dir: /app
+        volumes:
+            - .:/app:cached
+            - composer-cache:/tmp/composer
+        command: php -v
+        init: true
+
+    composer:
+        image: composer:2
+        working_dir: /app
+        volumes:
+            - .:/app:cached
+            - composer-cache:/tmp/composer
+        entrypoint: [ "composer" ]
+
+volumes:
+    composer-cache:
