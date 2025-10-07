@@ -1,0 +1,50 @@
+{% set cols = grid.definition.columns %}
+{% set data = grid.result %}
+
+<div class="grid_{{ grid.definition.name }}">
+    <div class="grid_title">
+        {{ grid.definition.label|trans }}
+    </div>
+
+    <div class="grid_content">
+        <div class="relative overflow-x-auto">
+            {% if data|length > 0 %}
+                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                        {% for col in cols %}
+                            <th scope="col" class="px-6 py-3">
+                                {{ col.label|trans }}
+                            </th>
+                        {% endfor %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for row in data %}
+                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+                            {% for col in cols %}
+                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {{ _self.render_value(row, col.name) }}
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <div class="warning">{{ 'app.grid.no_data'|trans({}, 'messages') }}</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% macro render_value(row, key) %}
+    {% set value = attribute(row, key) %}
+
+    {# If it is an Ulid, display the Ulid in Rfc4122 format as displayed in the database #}
+    {% if attribute(value, 'toRfc4122') is defined %}
+        {% set value = attribute(value, 'toRfc4122') %}
+    {% endif %}
+
+    {{ value }}
+{% endmacro %}
