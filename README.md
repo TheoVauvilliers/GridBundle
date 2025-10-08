@@ -1,85 +1,52 @@
 # GridBundle
 
-This repository ships with a lightweight Docker setup to run all dev tools (Composer, PHPUnit, PHPStan, PHPCS, CS Fixer) without installing PHP or Composer locally.
+[![PHPStan](https://github.com/TheoVauvilliers/GridBundle/actions/workflows/phpstan.yml/badge.svg?branch=main)](https://github.com/TheoVauvilliers/GridBundle/actions/workflows/phpstan.yml)
+[![PHPUnit](https://github.com/TheoVauvilliers/GridBundle/actions/workflows/phpunit.yml/badge.svg?branch=main)](https://github.com/TheoVauvilliers/GridBundle/actions/workflows/phpunit.yml)
+[![Latest Stable Version](https://img.shields.io/packagist/v/theovauvilliers/grid-bundle.svg)](https://packagist.org/packages/theovauvilliers/grid-bundle)
+![PHP](https://img.shields.io/badge/PHP-8.4-blue)
+[![Symfony Requirement](https://img.shields.io/packagist/dependency-v/theovauvilliers/grid-bundle/symfony/framework-bundle?logo=symfony)](https://packagist.org/packages/theovauvilliers/grid-bundle)
 
-The Makefile wraps docker `compose run` so you can run one-off commands in ephemeral containers.
+Minimal setup to work on the bundle locally using Docker. No local PHP/Composer required.
 
-## Prerequisites
+## Requirements
 
-- **Docker + Docker Compose v2** (`docker compose ...`)
-- **make** available on your machine
-  - macOS/Linux: already available or `brew install make`
-  - Windows: install via **Chocolatey** (`choco install make`) or **Scoop** (`scoop install make`)  
-    *No make? See “Windows without make” below.*
+- Docker with Docker Compose v2
 
-You do not need to run `docker compose up -d`. We only run short-lived CLI containers.
+> Commands below assume services named `php` and `composer`.
 
-## Quickstart
-
+## Install
 ```bash
-# From the repository root
-make install   # composer install inside a container
-make test      # run PHPUnit
-make stan      # run PHPStan
-make cs        # run PHP_CodeSniffer
-make cs-fix    # run PHP CS Fixer (if present)
-make qa        # run static analysis + code style check
-```
-
-## Available targets
-
-| Target                     | What it does                                   |
-| -------------------------- |------------------------------------------------|
-| `make install`             | `composer install --no-interaction`            |
-| `make update`              | `composer update --no-interaction`             |
-| `make dump-autoload`       | `composer dump-autoload -o`                    |
-| `make composer ARGS="..."` | Run any Composer command (see examples below)  |
-| `make test`                | `vendor/bin/phpunit`                           |
-| `make stan`                | `vendor/bin/phpstan analyse`                   |
-| `make cs`                  | `vendor/bin/php-cs-fixer check --diff`         |
-| `make cs-fix`              | `vendor/bin/php-cs-fixer fix --using-cache=no` |
-| `make qa`                  | Shortcut for `stan` + `cs`                     |
-| `make help`                | Print a short help text                        |
-
-### Composer passthrough examples
-
-```bash
-make composer ARGS="require symfony/console:^7.0"
-make composer ARGS="remove vendor/package"
-make composer ARGS="show -D"
-```
-
-## How it works
-
-The Makefile calls:
-
-- `docker compose run --rm composer ...` for **Composer** tasks
-- `docker compose run --rm php ...` for **PHP** tools (phpunit, phpstan, phpcs, cs-fixer)
-
-This spins up a throwaway container, executes the command, then removes it. Your project directory is mounted at `/app`, so changes (e.g., `vendor/`) persist on your host.
-
-### Windows without make (PowerShell)
-
-If you don’t want to install make, run the underlying commands directly:
-
-```bash
+git clone https://github.com/TheoVauvilliers/GridBundle.git
+cd GridBundle
 docker compose run --rm composer install
-docker compose run --rm php vendor/bin/phpunit
-docker compose run --rm php vendor/bin/phpstan analyse
-docker compose run --rm php vendor/bin/php-cs-fixer check --diff
-docker compose run --rm php vendor/bin/php-cs-fixer fix --using-cache=no
 ```
 
-Optionally, add a small PowerShell wrapper script if you prefer aliases.
+## Run tools
 
-## Tips & troubleshooting
+### PHPUnit
+```bash
+docker compose run --rm php vendor/bin/phpunit -c phpunit.xml.dist --colors=always
+```
 
-- **No need for** `up -d`: these are one-off CLI tasks. Use `up -d` only if you later add long-running services (DB, Redis, etc.).
-- **First run fails with missing** `vendor/` → run `make install`.
-- **File ownership issues (WSL/Linux)**: run with your user ID:
-  ```bash
-  make install UID=$(id -u) GID=$(id -g)
-  ```
-  (The Makefile honors `UID`/`GID` and forwards them to `docker compose run`.)
-- **Extensions needed** (intl/zip, etc.): add a `Dockerfile` for the `php` service and `docker compose build`.
-- **Composer cache**: the compose file mounts a cache volume to speed up installs.
+### PHPStan
+```bash
+docker compose run --rm php vendor/bin/phpstan analyse -c phpstan.neon --no-progress --ansi
+```
+
+### php-cs-fixer
+```bash
+# check (no changes)
+docker compose run --rm php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --dry-run --diff --ansi
+# fix in place
+docker compose run --rm php vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php --ansi
+```
+
+### Composer
+```bash
+docker compose run --rm composer update
+```
+
+### Tips
+
+- Cache: add `-v $(pwd)/.cache:/tmp/cache` to persist tool caches between runs.
+- If your service names differ, replace `php`/`composer` accordingly.

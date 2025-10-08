@@ -1,0 +1,49 @@
+name: PHPStan
+
+on:
+    push:
+        branches: [ "main" ]
+    pull_request:
+        branches: [ "main" ]
+
+permissions:
+    contents: read
+
+concurrency:
+    group: phpstan-${{ github.ref }}
+    cancel-in-progress: true
+
+jobs:
+    phpstan:
+        name: Static Analysis – PHP 8.4
+        runs-on: ubuntu-latest
+        timeout-minutes: 15
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: mbstring, intl, pdo, dom, json
+                  coverage: none
+                  tools: composer:v2
+
+            - name: Validate composer.json
+              run: composer validate --strict
+
+            - name: Install dependencies (cached)
+              uses: ramsey/composer-install@v3
+              with:
+                  composer-options: --no-interaction --prefer-dist --no-progress
+
+            - name: Cache PHPStan result cache
+              uses: actions/cache@v4
+              with:
+                  path: .phpstan-cache
+                  key: phpstan-${{ runner.os }}-8.4-${{ hashFiles('composer.lock') }}-${{ hashFiles('phpstan.neon*') }}
+                  restore-keys: |
+                      phpstan-${{ runner.os }}-8.4-
+
+            - name: Run PHPStan
+              run: vendor/bin/phpstan analyse -c phpstan.neon --no-progress --ansi
