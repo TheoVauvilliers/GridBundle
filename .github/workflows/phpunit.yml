@@ -2,9 +2,12 @@ name: PHPUnit
 
 on:
     push:
-        branches: [ "main" ]
+        branches: [ "main", "develop" ]
+        paths-ignore:
+            - '**/*.md'
+            - 'docs/**'
     pull_request:
-        branches: [ "main" ]
+        branches: [ "main", "develop" ]
 
 permissions:
     contents: read
@@ -18,7 +21,6 @@ jobs:
         name: Tests – PHP 8.4
         runs-on: ubuntu-latest
         timeout-minutes: 20
-
         steps:
             - uses: actions/checkout@v4
 
