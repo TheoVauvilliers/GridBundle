@@ -2,9 +2,12 @@ name: PHPStan
 
 on:
     push:
-        branches: [ "main" ]
+        branches: [ "main", "develop" ]
+        paths-ignore:
+            - '**/*.md'
+            - 'docs/**'
     pull_request:
-        branches: [ "main" ]
+        branches: [ "main", "develop" ]
 
 permissions:
     contents: read
@@ -18,7 +21,6 @@ jobs:
         name: Static Analysis – PHP 8.4
         runs-on: ubuntu-latest
         timeout-minutes: 15
-
         steps:
             - uses: actions/checkout@v4
 
