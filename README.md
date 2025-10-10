@@ -3,8 +3,6 @@
 [![PHPStan](https://github.com/TheoVauvilliers/GridBundle/actions/workflows/phpstan.yml/badge.svg?branch=main)](https://github.com/TheoVauvilliers/GridBundle/actions/workflows/phpstan.yml)
 [![PHPUnit](https://github.com/TheoVauvilliers/GridBundle/actions/workflows/phpunit.yml/badge.svg?branch=main)](https://github.com/TheoVauvilliers/GridBundle/actions/workflows/phpunit.yml)
 [![Latest Stable Version](https://img.shields.io/packagist/v/theovauvilliers/grid-bundle.svg)](https://packagist.org/packages/theovauvilliers/grid-bundle)
-![PHP](https://img.shields.io/badge/PHP-8.4-blue)
-[![Symfony Requirement](https://img.shields.io/packagist/dependency-v/theovauvilliers/grid-bundle/symfony/framework-bundle?logo=symfony)](https://packagist.org/packages/theovauvilliers/grid-bundle)
 
 Minimal setup to work on the bundle locally using Docker. No local PHP/Composer required.
 
@@ -50,3 +48,9 @@ docker compose run --rm composer update
 
 - Cache: add `-v $(pwd)/.cache:/tmp/cache` to persist tool caches between runs.
 - If your service names differ, replace `php`/`composer` accordingly.
+
+## Releases
+
+We release by **fast-forwarding `main` from `develop`**.  
+Maintainers: see **[RELEASE.md](./RELEASE.md)** for the exact commands and branch protection settings.
+
