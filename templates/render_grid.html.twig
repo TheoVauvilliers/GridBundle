@@ -1,3 +1,10 @@
+{# @TheoVauvilliersGrid/_action_button.html.twig
+   Expected:
+   - grid: GridResult
+#}
+
+<link rel="stylesheet" href="{{ asset('bundles/theovauvilliersgrid/grid/style.css') }}">
+
 {% set cols = grid.definition.columns %}
 {% set data = grid.result %}
 
@@ -17,6 +24,11 @@
                                 {{ col.label|trans }}
                             </th>
                         {% endfor %}
+                        {% if grid.definition.actions is defined and grid.definition.actions|length > 0 %}
+                            <th scope="col" class="px-6 py-3">
+                                {{ 'grid.actions.label'|trans({}, 'grid') }}
+                            </th>
+                        {% endif %}
                     </tr>
                     </thead>
                     <tbody>
@@ -27,12 +39,19 @@
                                     {{ _self.render_value(row, col.name) }}
                                 </td>
                             {% endfor %}
+                            {% if grid.definition.actions is defined and grid.definition.actions|length > 0 %}
+                                <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                                    {% for action in grid.definition.actions %}
+                                        {{ include('@TheoVauvilliersGrid/_action_button.html.twig', { action: action, row: row }) }}
+                                    {% endfor %}
+                                </td>
+                            {% endif %}
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             {% else %}
-                <div class="warning">{{ 'app.grid.no_data'|trans({}, 'messages') }}</div>
+                <div class="warning">{{ 'grid.no_data.label'|trans({}, 'grid') }}</div>
             {% endif %}
         </div>
     </div>
