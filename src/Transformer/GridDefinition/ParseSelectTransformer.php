@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace TheoVauvilliers\GridBundle\Transformer;
+namespace TheoVauvilliers\GridBundle\Transformer\GridDefinition;
+
+use TheoVauvilliers\GridBundle\Transformer\TransformerInterface;
 
 /**
  * Transforms an array of select strings into GridDefinitionSelect objects.
@@ -11,20 +13,20 @@ namespace TheoVauvilliers\GridBundle\Transformer;
  * - "f.name" → name='f.name', alias='name'
  * - "f.name as custom_alias" → name='f.name', alias='custom_alias'
  */
-class ParseSelectTransformer
+class ParseSelectTransformer implements TransformerInterface
 {
     /**
-     * @param string[] $selects
+     * @param array<int|string, mixed>|object $root
      *
      * @return array<int, array{name: string, alias: string}>
      */
-    public function __invoke(array $selects): array
+    public function transform(mixed $data, string $path, array|object $root): array
     {
-        return array_map(fn (string $select): array => $this->parse($select), $selects);
+        return array_map(fn (string $select): array => $this->parse($select), $data);
     }
 
     /** @return array{name: string, alias: string} */
-    private function parse(string $select): array
+    protected function parse(string $select): array
     {
         $select = trim($select);
 
@@ -49,7 +51,7 @@ class ParseSelectTransformer
      * - "f.name" → "name"
      * - "f.configName" → "configName".
      */
-    private function generateAlias(string $fieldName): string
+    protected function generateAlias(string $fieldName): string
     {
         $fieldName = trim($fieldName);
 

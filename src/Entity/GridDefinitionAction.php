@@ -8,9 +8,11 @@ class GridDefinitionAction
 {
     private string $name;
 
-    private string $label;
+    private ?string $label = null;
 
-    private string $route;
+    private ?string $route = null;
+
+    private ?string $preset = null;
 
     /** @var array<string, string> */
     private array $routeParameters = [];
@@ -27,24 +29,24 @@ class GridDefinitionAction
         return $this;
     }
 
-    public function getLabel(): string
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
-    public function setLabel(string $label): static
+    public function setLabel(?string $label): static
     {
         $this->label = $label;
 
         return $this;
     }
 
-    public function getRoute(): string
+    public function getRoute(): ?string
     {
         return $this->route;
     }
 
-    public function setRoute(string $route): static
+    public function setRoute(?string $route): static
     {
         $this->route = $route;
 
@@ -61,6 +63,18 @@ class GridDefinitionAction
     public function setRouteParameters(array $routeParameters): static
     {
         $this->routeParameters = $routeParameters;
+
+        return $this;
+    }
+
+    public function getPreset(): ?string
+    {
+        return $this->preset;
+    }
+
+    public function setPreset(?string $preset): static
+    {
+        $this->preset = $preset;
 
         return $this;
     }

@@ -1,3 +1,5 @@
-app:
-    grid:
-        no_data: No data
+grid:
+    actions:
+        label: Actions
+    no_data:
+        label: No data
