@@ -1,0 +1,22 @@
+services:
+    TheoVauvilliers\GridBundle\Transformer\DataAccessor: ~
+
+    grid.transformer.pipeline.grid_definition:
+        class: TheoVauvilliers\GridBundle\Transformer\TransformerPipeline
+        arguments:
+            - '@TheoVauvilliers\GridBundle\Transformer\DataAccessor'
+        calls:
+            - [ add, [ 'columns', '@TheoVauvilliers\GridBundle\Transformer\GridDefinition\ColumnsKeyTransformer' ] ]
+            - [ add, [ 'actions', '@TheoVauvilliers\GridBundle\Transformer\GridDefinition\ActionsKeyTransformer' ] ]
+            - [ add, [ 'source.select', '@TheoVauvilliers\GridBundle\Transformer\GridDefinition\ParseSelectTransformer' ] ]
+
+    TheoVauvilliers\GridBundle\Transformer\AbstractAddKeyToRowsTransformer:
+        abstract: true
+
+    TheoVauvilliers\GridBundle\Transformer\GridDefinition\ActionsKeyTransformer:
+        parent: TheoVauvilliers\GridBundle\Transformer\AbstractAddKeyToRowsTransformer
+
+    TheoVauvilliers\GridBundle\Transformer\GridDefinition\ColumnsKeyTransformer:
+        parent: TheoVauvilliers\GridBundle\Transformer\AbstractAddKeyToRowsTransformer
+
+    TheoVauvilliers\GridBundle\Transformer\GridDefinition\ParseSelectTransformer: ~

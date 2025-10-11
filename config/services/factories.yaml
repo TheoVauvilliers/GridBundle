@@ -2,6 +2,7 @@ services:
     TheoVauvilliers\GridBundle\Factory\GridDefinitionFactory:
         arguments:
             - '@TheoVauvilliers\GridBundle\Provider\GridDefinitionProvider'
+            - '@grid.transformer.pipeline.grid_definition'
             - '@serializer'
 
     TheoVauvilliers\GridBundle\Factory\GridQueryBuilderFactory:
