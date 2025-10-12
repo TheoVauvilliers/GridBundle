@@ -8,3 +8,4 @@ services:
     TheoVauvilliers\GridBundle\Factory\GridQueryBuilderFactory:
         arguments:
             - '@doctrine.orm.entity_manager'
+            - !tagged_iterator grid.query.builder

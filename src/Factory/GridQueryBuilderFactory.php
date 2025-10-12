@@ -7,11 +7,14 @@ namespace TheoVauvilliers\GridBundle\Factory;
 use TheoVauvilliers\GridBundle\Entity\GridDefinition;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\QueryBuilder;
+use TheoVauvilliers\GridBundle\Query\QueryPartBuilderInterface;
 
 readonly class GridQueryBuilderFactory
 {
+    /** @param iterable<QueryPartBuilderInterface> $queryPartBuilders */
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        protected EntityManagerInterface $entityManager,
+        protected iterable $queryPartBuilders,
     ) {
     }
 
@@ -20,24 +23,12 @@ readonly class GridQueryBuilderFactory
     {
         $queryBuilder = $this->entityManager->createQueryBuilder();
 
-        $queryBuilder
-            ->from(
-                $definition->getSource()->getFrom()->getEntity(),
-                $definition->getSource()->getFrom()->getAlias()
-            )
-            ->select($this->buildSelect($definition))
-        ;
+        foreach ($this->queryPartBuilders as $queryPartBuilder) {
+            if ($queryPartBuilder->supports($definition)) {
+                $queryPartBuilder->build($queryBuilder, $definition, $params);
+            }
+        }
 
         return $queryBuilder;
-    }
-
-    private function buildSelect(GridDefinition $definition): string
-    {
-        $select = array_map(
-            static fn ($select) => \sprintf('%s AS %s', $select->getName(), $select->getAlias()),
-            $definition->getSource()->getSelect()
-        );
-
-        return implode(', ', $select);
     }
 }

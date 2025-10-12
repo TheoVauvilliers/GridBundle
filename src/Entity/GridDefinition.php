@@ -10,7 +10,7 @@ class GridDefinition
 
     private string $label = '';
 
-    private GridDefinitionSource $source;
+    private ?GridDefinitionSource $source = null;
 
     /** @var GridDefinitionAction[] */
     private array $actions = [];
@@ -42,12 +42,12 @@ class GridDefinition
         return $this;
     }
 
-    public function getSource(): GridDefinitionSource
+    public function getSource(): ?GridDefinitionSource
     {
         return $this->source;
     }
 
-    public function setSource(GridDefinitionSource $source): static
+    public function setSource(?GridDefinitionSource $source): static
     {
         $this->source = $source;
 
