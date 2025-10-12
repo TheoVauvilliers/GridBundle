@@ -9,7 +9,10 @@ class GridDefinitionSource
     /** @var GridDefinitionSelect[] */
     private array $select = [];
 
-    private GridDefinitionFrom $from;
+    private ?GridDefinitionFrom $from = null;
+
+    /** @var array<int|string, GridDefinitionJoin> */
+    private array $join = [];
 
     /** @return GridDefinitionSelect[] */
     public function getSelect(): array
@@ -25,14 +28,28 @@ class GridDefinitionSource
         return $this;
     }
 
-    public function getFrom(): GridDefinitionFrom
+    public function getFrom(): ?GridDefinitionFrom
     {
         return $this->from;
     }
 
-    public function setFrom(GridDefinitionFrom $from): static
+    public function setFrom(?GridDefinitionFrom $from): static
     {
         $this->from = $from;
+
+        return $this;
+    }
+
+    /** @return GridDefinitionJoin[] */
+    public function getJoin(): array
+    {
+        return $this->join;
+    }
+
+    /** @param GridDefinitionJoin[] $join */
+    public function setJoin(array $join): static
+    {
+        $this->join = $join;
 
         return $this;
     }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace TheoVauvilliers\GridBundle\Manager;
 
+use Symfony\Component\Serializer\Exception\ExceptionInterface;
 use TheoVauvilliers\GridBundle\Entity\GridResult;
 use TheoVauvilliers\GridBundle\Factory\GridDefinitionFactory;
 use TheoVauvilliers\GridBundle\Factory\GridQueryBuilderFactory;
@@ -20,6 +21,7 @@ readonly class GridManager
      * @param array<string, mixed> $params
      *
      * @throws \Exception
+     * @throws ExceptionInterface
      */
     public function getGrid(string $name, array $params = []): GridResult
     {

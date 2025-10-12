@@ -1,0 +1,32 @@
+{# @TheoVauvilliersGrid/_action_button.html.twig
+   Expected:
+   - action: GridDefinitionAction
+   - row: array
+#}
+
+{% set label = action.label ?? (action.getLabel is defined ? action.getLabel() : null) %}
+{% set route = action.route ?? (action.getRoute is defined ? action.getRoute() : null) %}
+{% set preset = action.preset ?? (action.getPreset is defined ? action.getPreset() : null) %}
+{% set routeParameters = action.routeParameters ?? (action.getRouteParameters is defined ? action.getRouteParameters() : {}) %}
+
+{% set params = {} %}
+{% for paramName, colName in routeParameters %}
+    {% set value =
+        attribute(row, colName) is defined ? attribute(row, colName)
+        : (row[colName] is defined ? row[colName] : colName)
+    %}
+    {% set params = params|merge({ (paramName): value }) %}
+{% endfor %}
+
+{% set variants = {
+    'delete': 'inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium bg-red-600 text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50',
+    'update': 'inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50',
+    'view': 'inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium hover:bg-zinc-100 text-zinc-700 dark:hover:bg-zinc-800 dark:text-zinc-200',
+    'default': 'inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-sm font-medium bg-gray-600 text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50'
+} %}
+
+{% set classes = attribute(variants, preset) is defined ? attribute(variants, preset) : attribute(variants, 'default') %}
+
+<a href="{{ path(route, params) }}" class="{{ classes }}">
+    <span>{{ label|trans }}</span>
+</a>

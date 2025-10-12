@@ -2,8 +2,10 @@ services:
     TheoVauvilliers\GridBundle\Factory\GridDefinitionFactory:
         arguments:
             - '@TheoVauvilliers\GridBundle\Provider\GridDefinitionProvider'
-            - '@TheoVauvilliers\GridBundle\Serializer\GridDefinitionDenormalizer'
+            - '@grid.transformer.pipeline.grid_definition'
+            - '@serializer'
 
     TheoVauvilliers\GridBundle\Factory\GridQueryBuilderFactory:
         arguments:
             - '@doctrine.orm.entity_manager'
+            - !tagged_iterator grid.query.builder

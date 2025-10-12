@@ -1,0 +1,6 @@
+services:
+    TheoVauvilliers\GridBundle\Query\FromBuilder:
+        tags: [ 'grid.query.builder' ]
+
+    TheoVauvilliers\GridBundle\Query\SelectBuilder:
+        tags: [ 'grid.query.builder' ]
