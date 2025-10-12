@@ -6,9 +6,10 @@ services:
         arguments:
             - '@TheoVauvilliers\GridBundle\Transformer\DataAccessor'
         calls:
+            - [ add, [ 'source.select', '@TheoVauvilliers\GridBundle\Transformer\GridDefinition\ParseSelectTransformer' ] ]
+            - [ add, [ 'source.join', '@TheoVauvilliers\GridBundle\Transformer\GridDefinition\JoinFlattenTransformer' ] ]
             - [ add, [ 'columns', '@TheoVauvilliers\GridBundle\Transformer\GridDefinition\ColumnsKeyTransformer' ] ]
             - [ add, [ 'actions', '@TheoVauvilliers\GridBundle\Transformer\GridDefinition\ActionsKeyTransformer' ] ]
-            - [ add, [ 'source.select', '@TheoVauvilliers\GridBundle\Transformer\GridDefinition\ParseSelectTransformer' ] ]
 
     TheoVauvilliers\GridBundle\Transformer\AbstractAddKeyToRowsTransformer:
         abstract: true
@@ -20,3 +21,5 @@ services:
         parent: TheoVauvilliers\GridBundle\Transformer\AbstractAddKeyToRowsTransformer
 
     TheoVauvilliers\GridBundle\Transformer\GridDefinition\ParseSelectTransformer: ~
+
+    TheoVauvilliers\GridBundle\Transformer\GridDefinition\JoinFlattenTransformer: ~
